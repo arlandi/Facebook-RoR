@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
   has_many :microposts, dependent: :destroy
+  has_many :friendships
+  has_many :requested_friends, :through => :friendships, :source => :friend, :conditions => "status = 'requested'"
   has_many :relationships, foreign_key: "follower_id", dependent: :destroy
   has_many :followed_users, through: :relationships, source: :followed
   has_many :reverse_relationships, foreign_key: "followed_id",

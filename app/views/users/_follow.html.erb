@@ -1,5 +1,9 @@
-<%= form_for(current_user.relationships.build(followed_id: @user.id),
-             remote: true) do |f| %>
-  <div><%= f.hidden_field :followed_id %></div>
-  <%= f.submit "Follow", class: "btn btn-large btn-primary" %>
-<% end %>
+<%= friendship_status(@current_user, @user) %>
+	<% unless Friendship.exists?(@current_user.id, @user.id) %>
+	<br />
+	<%= link_to "Request friendship with #{@user.name}",
+				{ :controller => "friendship", :action => "create", :id => @user.id },
+				:confirm => "Send friend request to #{@user.name}?" %>
+	<% end %>
+
+
